@@ -21,6 +21,7 @@ model Restaurant {
   deliveryTimeMinutes Int
   categories          Category[]
   products            Product[]
+  createdAt           DateTime   @default(now())
 }
 
 model Category {
@@ -28,7 +29,8 @@ model Category {
   name        String
   imageUrl    String
   restaurants Restaurant[]
-  Product     Product[]
+  products    Product[]
+  createdAt   DateTime     @default(now())
 }
 
 model Product {
@@ -42,4 +44,5 @@ model Product {
   restaurant         Restaurant @relation(fields: [restaurantId], references: [id])
   categoryId         String
   category           Category   @relation(fields: [categoryId], references: [id])
+  createdAt          DateTime   @default(now())
 }

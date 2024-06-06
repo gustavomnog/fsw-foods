@@ -1032,6 +1032,10 @@ const createJuices = async (restaurantId: string, categoryId: string) => {
 };
 
 const main = async () => {
+  await prismaClient.Product.deleteMany();
+  await prismaClient.category.deleteMany();
+  await prismaClient.restaurant.deleteMany();
+
   const desertsCategory = await prismaClient.category.create({
     data: {
       name: "Sobremesas",
