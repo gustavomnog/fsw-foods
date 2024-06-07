@@ -33,6 +33,11 @@ const Restaurants = () => {
       <div className="px-5 py-6">
         <h2 className="tex-lg mb-6 font-semibold">Restaurantes Recomendados</h2>
 
+        {restaurants.length === 0 && (
+          <div className="w-full text-center">
+            <span>Nenhum restaurante encontrado!</span>
+          </div>
+        )}
         <div className="flex w-full flex-col gap-6">
           {restaurants.map((restaurant) => (
             <RestaurantItem
