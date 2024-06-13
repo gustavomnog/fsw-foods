@@ -24,7 +24,7 @@ export const ProductItem = ({ product, className }: ProductItemProps) => {
       className={(cn("w-[150px] min-w-[150px]"), className)}
       href={`/products/${product.id}`}
     >
-      <div className="w-full space-y-2 ">
+      <div className="w-full max-w-[115px] space-y-2">
         <div className="relative aspect-square w-full">
           <Image
             src={product.imageUrl}
