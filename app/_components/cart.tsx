@@ -11,15 +11,15 @@ const Cart = () => {
     useContext(CartContext);
 
   return (
-    <div className="py-5">
-      <div className="space-y-4">
-        {products.map((item) => (
-          <CartItem key={item.id} cartProduct={item} />
-        ))}
-      </div>
-
-      {products.length > 0 && (
+    <div className=" flex h-full flex-col py-5">
+      {products.length > 0 ? (
         <>
+          <div className="flex-auto space-y-4">
+            {products.map((item) => (
+              <CartItem key={item.id} cartProduct={item} />
+            ))}
+          </div>
+
           <div className="mt-6">
             <Card>
               <CardContent className="space-y-2 p-5">
@@ -51,11 +51,7 @@ const Cart = () => {
 
                 <div className="flex items-center justify-between text-xs font-semibold">
                   <span className="text-muted-foreground">Total</span>
-                  <span>
-                    {formatCurrency(
-                      totalPrice + Number(products[0].restaurant.deliveryFee),
-                    )}
-                  </span>
+                  <span>{formatCurrency(totalPrice)}</span>
                 </div>
               </CardContent>
             </Card>
@@ -63,6 +59,8 @@ const Cart = () => {
 
           <Button className="mt-6 w-full">Finalizar pedido</Button>
         </>
+      ) : (
+        <h2 className="text-left font-medium">Sua sacola está vazia.</h2>
       )}
     </div>
   );
