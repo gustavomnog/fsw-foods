@@ -21,6 +21,7 @@ model Restaurant {
   deliveryTimeMinutes Int
   categories          Category[]
   products            Product[]
+  orders              Order[]
   createdAt           DateTime   @default(now())
 }
 
@@ -44,6 +45,7 @@ model Product {
   restaurant         Restaurant @relation(fields: [restaurantId], references: [id])
   categoryId         String
   category           Category   @relation(fields: [categoryId], references: [id])
+  orders             Order[]
   createdAt          DateTime   @default(now())
 }
 
@@ -85,6 +87,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  orders        Order[]
 
   @@map("users")
 }
@@ -96,4 +99,28 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Order {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id])
+  restaurantId        String
+  restaurant          Restaurant  @relation(fields: [restaurantId], references: [id])
+  products            Product[]
+  deliveryFee         Decimal     @db.Decimal(10, 2)
+  deliveryTimeMinutes Int
+  subtotalPrice       Decimal     @db.Decimal(10, 2)
+  totalPrice          Decimal     @db.Decimal(10, 2)
+  totalDiscount       Decimal     @db.Decimal(10, 2)
+  createdAt           DateTime    @default(now())
+  status              OrderStatus
+}
+
+enum OrderStatus {
+  CONFIRMED
+  CANCELED
+  PREPARING
+  DELIVERING
+  COMPLETED
 }
