@@ -35,18 +35,18 @@ model Category {
 }
 
 model Product {
-  id                 String     @id @default(uuid())
+  id                 String         @id @default(uuid())
   name               String
   description        String
   imageUrl           String
-  price              Decimal    @db.Decimal(10, 2)
-  discountPercentage Int        @default(0)
+  price              Decimal        @db.Decimal(10, 2)
+  discountPercentage Int            @default(0)
   restaurantId       String
-  restaurant         Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant         Restaurant     @relation(fields: [restaurantId], references: [id])
   categoryId         String
-  category           Category   @relation(fields: [categoryId], references: [id])
-  orders             Order[]
-  createdAt          DateTime   @default(now())
+  category           Category       @relation(fields: [categoryId], references: [id])
+  createdAt          DateTime       @default(now())
+  orderProducts      OrderProduct[]
 }
 
 model Account {
@@ -101,19 +101,28 @@ model VerificationToken {
   @@map("verificationtokens")
 }
 
+model OrderProduct {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+}
+
 model Order {
-  id                  String      @id @default(cuid())
+  id                  String         @id @default(cuid())
   userId              String
-  user                User        @relation(fields: [userId], references: [id])
+  user                User           @relation(fields: [userId], references: [id])
   restaurantId        String
-  restaurant          Restaurant  @relation(fields: [restaurantId], references: [id])
-  products            Product[]
-  deliveryFee         Decimal     @db.Decimal(10, 2)
+  restaurant          Restaurant     @relation(fields: [restaurantId], references: [id])
+  products            OrderProduct[]
+  deliveryFee         Decimal        @db.Decimal(10, 2)
   deliveryTimeMinutes Int
-  subtotalPrice       Decimal     @db.Decimal(10, 2)
-  totalPrice          Decimal     @db.Decimal(10, 2)
-  totalDiscount       Decimal     @db.Decimal(10, 2)
-  createdAt           DateTime    @default(now())
+  subtotalPrice       Decimal        @db.Decimal(10, 2)
+  totalPrice          Decimal        @db.Decimal(10, 2)
+  totalDiscount       Decimal        @db.Decimal(10, 2)
+  createdAt           DateTime       @default(now())
   status              OrderStatus
 }
 
