@@ -19,8 +19,18 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/app/_components/ui/alert-dialog";
+import { useToast } from "./ui/use-toast";
+import { ToastAction } from "./ui/toast";
+import { useRouter } from "next/navigation";
 
-const Cart = () => {
+interface CartProps {
+  // eslint-disable-next-line no-unused-vars
+  setIsOpen(isOpen: boolean): void;
+}
+
+const Cart = ({ setIsOpen }: CartProps) => {
+  const router = useRouter();
+  const { toast } = useToast();
   const { data } = useSession();
   const {
     products,
@@ -62,6 +72,20 @@ const Cart = () => {
       });
 
       handleClearCart();
+      setIsOpen(false);
+
+      toast({
+        title: "Pedido finalizado com sucesso!",
+        description: "Você pode acompanhá-lo na tela dos seus pedidos.",
+        action: (
+          <ToastAction
+            altText="Meus pedidos"
+            onClick={() => router.push("/my-orders")}
+          >
+            Meus pedidos
+          </ToastAction>
+        ),
+      });
     } catch (error) {
       console.log(error);
     } finally {
