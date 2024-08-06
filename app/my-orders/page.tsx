@@ -21,6 +21,9 @@ const MyOrdersPage = async () => {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return (

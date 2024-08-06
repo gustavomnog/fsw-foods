@@ -32,7 +32,17 @@ interface ICartContext {
     quantity,
     emptyCart,
   }: {
-    product: Product;
+    product: Prisma.ProductGetPayload<{
+      include: {
+        restaurant: {
+          select: {
+            id: true;
+            deliveryFee: true;
+            deliveryTimeMinutes: true;
+          };
+        };
+      };
+    }>;
     quantity: number;
     emptyCart?: boolean;
   }): void;
